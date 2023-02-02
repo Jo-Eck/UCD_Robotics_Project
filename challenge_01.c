@@ -1,3 +1,10 @@
+#pragma config(Sensor, S1,     touchSensor,    sensorEV3_Touch)
+#pragma config(Sensor, S2,     gyroSensor,     sensorEV3_Gyro)
+#pragma config(Sensor, S3,     colorSensor,    sensorEV3_Color, modeEV3Color_Color)
+#pragma config(Sensor, S4,     touchSensor,    sensorEV3_Touch)
+#pragma config(Motor,  motorA,          armMotor,      tmotorEV3_Large, PIDControl, encoder)
+#pragma config(Motor,  motorB,          leftMotor,     tmotorEV3_Large, PIDControl, driveLeft, encoder)
+#pragma config(Motor,  motorC,          rightMotor,    tmotorEV3_Large, PIDControl, driveRight, encoder)
 
 // Basic functionality for the robot
 void reset_encoder();
@@ -6,7 +13,7 @@ void move(int speed, int time);
 
 // Complex functionality for the robot
 void follow_line();
-bool search_line(); 
+bool search_line();
 void hit_wall();
 
 // Global variables
@@ -34,7 +41,7 @@ task main(){
 
     // Step 4
     // After we have reached the end of the line we turn X degrees to the right
-    // and move towards the wall 
+    // and move towards the wall
     turn(30);
     hit_wall();
 
@@ -57,7 +64,7 @@ task main(){
 }
 
 void reset_encoder(){
-    // Simply resets the encoder of the motors  
+    // Simply resets the encoder of the motors
 
     resetMotorEncoder(motorB);
     resetMotorEncoder(motorC);
@@ -68,7 +75,7 @@ void move(int speed, int time){
     // int speed: The speed of the robot
     // int time: The time the robot should move
     // takes negative values for moving backward
-    // takes positive values for moving forward 
+    // takes positive values for moving forward
     // takes -1 for infinite time
 
     setMotorSpeed(motorB, speed);
@@ -103,7 +110,7 @@ void turn(int degrees){
         }
     }
     // TODO: Pid Loop to counter oversteering
-    
+
     move(0,0);
 }
 
@@ -111,20 +118,20 @@ void turn(int degrees){
 void follow_line(){
     // Tries to detect a redline and follows it
     // If the line is lost it will search for it again
-    
+
     while(search_line()){
         move(turn_speed, 20); // <------- adjust as needed
     }
-    move(0,0)  
+    move(0,0);
 }
 
-void search_line(){
+bool search_line(){
     // Searches for a redline
     // If the line is found it will return true
     // If the line is not found it will return false
-	
+
     if (getColorName(colorSensor) == colorRed){
-        return true;    
+        return true;
     } else {
         // If the line is not found, it will first move incrementally to the left till it finds the line
         int degrees_turned = 0;
@@ -160,7 +167,7 @@ void search_line(){
 void hit_wall(){
     // Moves the robot forward until it hits a wall
     // If the robot hits a wall it will stop
-    
+
     bool button_pressed = false;
 
     move(move_speed, -1);
@@ -169,5 +176,5 @@ void hit_wall(){
             button_pressed = true;
         }
     }
-    move(0,0)
+    move(0,0);
 }
