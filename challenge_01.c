@@ -33,7 +33,7 @@ task main(){
     // Step 2
     // turning 90 degrees to the right and moving towards the line
     turn(90);
-    move(100, 500);
+    move(setMotorSpeed, 500);
 
     // Step 3
     // Engaging the line searching and following algorithm
@@ -78,8 +78,9 @@ void move(int speed, int time){
     // takes positive values for moving forward
     // takes -1 for infinite time
 
+    setMotorSync(motorB, motorC, 100, speed)
     setMotorSpeed(motorB, speed);
-    setMotorSpeed(motorC, speed);
+    
     if(time != -1){
         wait1Msec(time);
         setMotorSpeed(motorB, 0);
