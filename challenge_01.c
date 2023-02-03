@@ -15,7 +15,7 @@ void cease();
 void turnLeft(int speed);
 void turnRight(int speed);
 
-//hi jon
+//hi adam :D
 task main()
 {
 	//Step 1//
