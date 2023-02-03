@@ -135,7 +135,8 @@ bool search_line(){
     if (getColorName(colorSensor) == target_colour){
         return true;
     } else {
-        // If the line is not found, it will first move incrementally to the left till it finds the line
+        
+        // If the line is not found, we scan
         int degrees_turned = 0;
         while (degrees_turned < line_lost_max_angle){
             turn(-line_lost_angle_increments);
