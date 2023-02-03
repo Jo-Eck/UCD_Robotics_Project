@@ -28,6 +28,7 @@ TLegoColors target_colour = colorBlack;
 
 // Main function
 task main(){
+
     // Step 1
     // Moving from zone1 to point 2 untill we hit the Box and backing of a bit
     hit_wall();
@@ -40,7 +41,10 @@ task main(){
 
     // Step 3
     // Engaging the line searching and following algorithm
+
+
     follow_line();
+		playSound(soundBeepBeep);
 
     // Step 4
     // After we have reached the end of the line we turn X degrees to the right
@@ -80,11 +84,11 @@ void move(int left,int right, int time){
     // takes negative values for moving backward
     // takes positive values for moving forward
     // takes -1 for infinite time
- 
+
     setMotorSync(motorB, motorC, 100, 100);
     setMotorSpeed(motorB, right);
     setMotorSpeed(motorC, left);
-    
+
     if(time > -1){
         delay(time);
     }
@@ -122,7 +126,7 @@ void follow_line(){
     // If the line is lost it will search for it again
 
     while(search_line()){
-        move(turn_speed, 20); // <------- adjust as needed
+        move(turn_speed,turn_speed, 20); // <------- adjust as needed
     }
     move(0,0,0);
 }
@@ -135,7 +139,7 @@ bool search_line(){
     if (getColorName(colorSensor) == target_colour){
         return true;
     } else {
-        
+
         // If the line is not found, we scan
         int degrees_turned = 0;
         while (degrees_turned < line_lost_max_angle){
@@ -167,8 +171,10 @@ bool search_line(){
     }
 }
 
+/*
 void follow_line2(){
 {
+
 	bool lineFound;
 
 	while (true)
@@ -241,8 +247,10 @@ void follow_line2(){
 			break;
 		}
 	}//outer while end
-}   
 }
+}
+*/
+
 
 void hit_wall(){
     // Moves the robot forward until it hits a wall
@@ -250,7 +258,7 @@ void hit_wall(){
 
     bool button_pressed = false;
 
-    move(move_speed, -1);
+    move(move_speed,move_speed, -1);
     while (!button_pressed){
         if (getTouchValue(touchSensor)==1){
             button_pressed = true;
