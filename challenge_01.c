@@ -136,40 +136,26 @@ bool search_line(){
     // If the line is found it will return true
     // If the line is not found it will return false
 
-    if (getColorName(colorSensor) == target_colour){
-        return true;
-    } else {
 
-        // If the line is not found, we scan
-        int degrees_turned = 0;
-        while (degrees_turned < line_lost_max_angle){
-            turn(-line_lost_angle_increments);
-            degrees_turned += line_lost_angle_increments;
-
+       for (int i = 0; i < line_lost_max_angle; i += line_lost_angle_increments){
+           while (getGyroDegrees(gyroSensor) < i){
             if (getColorName(colorSensor) == target_colour){
-                move(0,0,0);
                 return true;
-            }
-        }
-        // If the line is not found, we move back to the original position and look to the right
-        turn(degrees_turned);
+               }
+               motor[motorB] = turn_speed;
+               motor[motorC] = -turn_speed;
+           }
 
-        degrees_turned = 0;
-        while (degrees_turned < line_lost_max_angle){
-            turn(line_lost_angle_increments);
-            degrees_turned += line_lost_angle_increments;
-
+           while (getGyroDegrees(gyroSensor) > -i){
             if (getColorName(colorSensor) == target_colour){
-                move(0,0,0);
                 return true;
-            }
-        }
-        // If the line is not found, we move back to the original position and give up
-        turn(-degrees_turned);
-        move(0,0,0);
-        return false;
+               }
+               motor[motorB] = -turn_speed;
+               motor[motorC] = turn_speed;
+           }
     }
 }
+
 
 /*
 void follow_line2(){
