@@ -4,7 +4,7 @@ This Repo contains the code for the UCD Robotics Project of the [COMP20170: Intr
 
 It is a joined effort of the following students:
 - [Mynah Bhattacharyya](https://github.com/mynah-bird)
-- Luke Lynam
+- [Luke Lynam](https://github.com/Wyvern42)
 - [Adam Lacey](https://github.com/Ha7cher)
 - [Jon Eckerth](https://github.com/Jo-Eck)
 - [Ben McDowell](https://github.com/Benmc1) 
