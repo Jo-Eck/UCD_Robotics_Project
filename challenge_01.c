@@ -21,7 +21,7 @@ void follow_line2();
 int turn_speed = 50;
 int move_speed = 100;
 int reverse_speed = -10;
-int line_lost_max_angle = 30;
+int line_lost_max_angle = 60;
 int line_lost_angle_increments = 5;
 TLegoColors target_colour = colorBlack;
 
@@ -126,7 +126,7 @@ void follow_line(){
     // If the line is lost it will search for it again
 
     while(search_line()){
-        move(turn_speed,turn_speed, 20); // <------- adjust as needed
+        move(turn_speed,turn_speed, 100); // <------- adjust as needed
     }
     move(0,0,0);
 }
@@ -135,25 +135,27 @@ bool search_line(){
     // Searches for a redline
     // If the line is found it will return true
     // If the line is not found it will return false
+    resetGyro(gyroSensor);    
 
-
-       for (int i = 0; i < line_lost_max_angle; i += line_lost_angle_increments){
-           while (getGyroDegrees(gyroSensor) < i){
-            if (getColorName(colorSensor) == target_colour){
-                return true;
-               }
-               motor[motorB] = turn_speed;
-               motor[motorC] = -turn_speed;
-           }
-
-           while (getGyroDegrees(gyroSensor) > -i){
-            if (getColorName(colorSensor) == target_colour){
-                return true;
-               }
-               motor[motorB] = -turn_speed;
-               motor[motorC] = turn_speed;
-           }
+    for (int i = 0; i < line_lost_max_angle; i += line_lost_angle_increments){
+        while (getGyroDegrees(gyroSensor) < i){
+         if (getColorName(colorSensor) == target_colour){
+             return true;
+            }
+            motor[motorB] = turn_speed;
+            motor[motorC] = -turn_speed;
+        }
+        while (getGyroDegrees(gyroSensor) > -i){
+         if (getColorName(colorSensor) == target_colour){
+             return true;
+            }
+            motor[motorB] = -turn_speed;
+            motor[motorC] = turn_speed;
+        }
     }
+
+    // If we cant find the line in the search space we return false
+    return false;
 }
 
 
