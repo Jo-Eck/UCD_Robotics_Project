@@ -158,6 +158,14 @@ bool search_line(){
     return false;
 }
 
+void move_to_line(){
+    // Moves the robot forward until it hits a line
+    move(100,100,-1);
+    while (getColorName(colorSensor) != target_colour){
+        // Wait untill we hit the line
+    }
+    move(0,0,0);   
+}
 
 /*
 void follow_line2(){
