@@ -25,6 +25,29 @@ int line_lost_max_angle = 30;
 int line_lost_angle_increments = 5;
 TLegoColors target_colour = colorBlack;
 
+task motorLeft()
+{
+	setMotorSpeed(motorB, 50);
+	setMotorSpeed(motorC, 0);
+}
+
+task resetLeft()
+{
+	setMotorSpeed(motorB, -50);
+	setMotorSpeed(motorC, 0);
+}
+
+task motorRight()
+{
+	setMotorSpeed(motorB, 0);
+	setMotorSpeed(motorC, 50);
+}
+
+task resetRight()
+{
+	setMotorSpeed(motorB, 0);
+	setMotorSpeed(motorC, -50);
+}
 
 // Main function
 task main(){
@@ -171,12 +194,9 @@ bool search_line(){
     }
 }
 
-/*
 void follow_line2(){
 {
-
 	bool lineFound;
-
 	while (true)
 	{
 		if (getColorName(colorSensor) == target_colour)
@@ -185,71 +205,70 @@ void follow_line2(){
 		else if (getColorName(colorSensor) != target_colour)
 		{//find the line
 			lineFound = false;
-			move(0,0,0);
+			startTask(motorLeft);
 			//search left
 			resetGyro(gyroSensor);
-			while (getGyroDegrees(gyroSensor) < 120 && lineFound == false)
+			while (getGyroDegrees(gyroSensor) < 30 && lineFound == false)
 			{
-				startTask(motorLeft);
+				move(50,0,-1);
 				if (getColorName(colorSensor) == target_colour)
 				{
 					lineFound = true;
 					break;
 				}
 			}//end while
-			move(0,0,0);
+			move(0,0,-1);
 
 			//if still not found, return to position
 			if (lineFound == false)
 			{
 				resetGyro(gyroSensor);
-				while (getGyroDegrees(gyroSensor) > -120 && lineFound == false)
+				while (getGyroDegrees(gyroSensor) > -30 && lineFound == false)
 				{
-					move(-50,0,-1);
+					startTask(resetLeft);
 					if (getColorName(colorSensor) == target_colour)
 					{ lineFound = true; }
 				}//end while
-				move(0,0,0);
+				move(0,0,-1);
 			}
 
 			//search right
 			resetGyro(gyroSensor);
-			while (getGyroDegrees(gyroSensor) > -120 && lineFound == false)
+			while (getGyroDegrees(gyroSensor) > -30 && lineFound == false)
 			{
-				move(0,50,-1);
+				startTask(motorRight);
 				if (getColorName(colorSensor) == target_colour)
 				{ lineFound = true; }
 			}//end while
-			move(0,0,0);
+			move(0,0,-1);
 
 			//if still not found, return to position
 			if (lineFound == false)
 			{
 				resetGyro(gyroSensor);
-				while (getGyroDegrees(gyroSensor) < 120 && lineFound == false)
+				while (getGyroDegrees(gyroSensor) < 30 && lineFound == false)
 				{
-					move(0,-50,-1);
+					startTask(resetRight);
 					if (getColorName(colorSensor) == target_colour)
 					{ lineFound = true; }
 				}//end while
-				move(0,0,0);
+				move(0,0,-1);
 			}
 
 		}//big if clause end
 
 		if (lineFound == true)
 		{
-			move(50,50,-1)
+			startTask(motorHalf);
 		}
 		if (lineFound == false)
 		{
-			move(0,0,0);
+			move(0,0,-1);
 			break;
 		}
 	}//outer while end
 }
 }
-*/
 
 
 void hit_wall(){
