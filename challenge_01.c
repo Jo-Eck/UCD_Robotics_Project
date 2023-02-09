@@ -10,6 +10,7 @@
 void reset_encoder();
 void turn(int degrees);
 void move(int left,int right, int time);
+void move_to_line();
 
 // Complex functionality for the robot
 void follow_line();
@@ -20,10 +21,10 @@ void follow_line2();
 // Global variables
 int turn_speed = 50;
 int move_speed = 100;
-int reverse_speed = -10;
+int reverse_speed = -30;
 int line_lost_max_angle = 60;
 int line_lost_angle_increments = 5;
-TLegoColors target_colour = colorBlack;
+TLegoColors target_colour = colorRed;
 
 task motorLeft()
 {
@@ -36,7 +37,6 @@ task resetLeft()
 	setMotorSpeed(motorB, -50);
 	setMotorSpeed(motorC, 0);
 }
-
 task motorRight()
 {
 	setMotorSpeed(motorB, 0);
@@ -59,14 +59,14 @@ task main(){
 
     // Step 2
     // turning 90 degrees to the right and moving towards the line
-    turn(90);
-    move(move_speed,move_speed, 500);
+    turn(-80);
+		move_to_line();
 
     // Step 3
     // Engaging the line searching and following algorithm
 
 
-    follow_line();
+    follow_line2();
 		playSound(soundBeepBeep);
 
     // Step 4
@@ -76,28 +76,22 @@ task main(){
     hit_wall();
 
     // Step 5
-    // After we have hit the wall we move back a bit and turn 90 degrees to the left
-    move(reverse_speed,reverse_speed, 1000);
-    turn(-90);
+    // After we have hit the wall we move back a bit and turn 90 degrees to the right
+    move(reverse_speed,reverse_speed, 500);
+    turn(-80);
+
+   
 
     // Step 6
     // we now head for the wall again, back off and do a 180 degree turn
     hit_wall();
-    move(reverse_speed,reverse_speed, 1000);
-    turn(-180);
+    turn(-165);
 
     // Step 7
     // We now head for the wall again and stop when we hit it
     hit_wall();
     move(0,0,-1);
 
-}
-
-void reset_encoder(){
-    // Simply resets the encoder of the motors
-
-    resetMotorEncoder(motorB);
-    resetMotorEncoder(motorC);
 }
 
 void move(int left,int right, int time){
@@ -108,9 +102,8 @@ void move(int left,int right, int time){
     // takes positive values for moving forward
     // takes -1 for infinite time
 
-    setMotorSync(motorB, motorC, 100, 100);
-    setMotorSpeed(motorB, right);
-    setMotorSpeed(motorC, left);
+    setMotorSpeed(motorB, left);
+    setMotorSpeed(motorC, right);
 
     if(time > -1){
         delay(time);
@@ -128,14 +121,16 @@ void turn(int degrees){
     if (degrees > 0){
         // Turn right until the angel is reached (or passed)
         while (getGyroDegrees(gyroSensor) < degrees){
-            motor[motorB] = turn_speed;
-            motor[motorC] = -turn_speed;
+            motor[motorB] = -turn_speed;
+            motor[motorC] = turn_speed;
+
+
         }
     } else {
         // Turn left until the angel is reached (or passed)
         while (getGyroDegrees(gyroSensor) > degrees){
-            motor[motorB] = -turn_speed;
-            motor[motorC] = turn_speed;
+            motor[motorB] = turn_speed;
+            motor[motorC] = -turn_speed;
         }
     }
     // TODO: Pid Loop to counter oversteering
@@ -158,7 +153,7 @@ bool search_line(){
     // Searches for a redline
     // If the line is found it will return true
     // If the line is not found it will return false
-    resetGyro(gyroSensor);    
+    resetGyro(gyroSensor);
 
     for (int i = 0; i < line_lost_max_angle; i += line_lost_angle_increments){
         while (getGyroDegrees(gyroSensor) < i){
@@ -187,7 +182,7 @@ void move_to_line(){
     while (getColorName(colorSensor) != target_colour){
         // Wait untill we hit the line
     }
-    move(0,0,0);   
+
 }
 
 void follow_line2(){
@@ -201,12 +196,11 @@ void follow_line2(){
 		else if (getColorName(colorSensor) != target_colour)
 		{//find the line
 			lineFound = false;
-			startTask(motorLeft);
+			move(0,50,-1);
 			//search left
 			resetGyro(gyroSensor);
-			while (getGyroDegrees(gyroSensor) < 30 && lineFound == false)
+			while (getGyroDegrees(gyroSensor) < 10 && lineFound == false)
 			{
-				move(50,0,-1);
 				if (getColorName(colorSensor) == target_colour)
 				{
 					lineFound = true;
@@ -218,45 +212,48 @@ void follow_line2(){
 			//if still not found, return to position
 			if (lineFound == false)
 			{
-				resetGyro(gyroSensor);
-				while (getGyroDegrees(gyroSensor) > -30 && lineFound == false)
+		
+				while (getGyroDegrees(gyroSensor) > -10  && lineFound == false )
 				{
-					startTask(resetLeft);
+					move(0,-50,-1);
 					if (getColorName(colorSensor) == target_colour)
-					{ lineFound = true; }
+				{
+					lineFound = true;
+					break;
+				}
 				}//end while
-				move(0,0,-1);
 			}
 
 			//search right
 			resetGyro(gyroSensor);
-			while (getGyroDegrees(gyroSensor) > -30 && lineFound == false)
+			while (getGyroDegrees(gyroSensor) > -10 && lineFound == false)
 			{
-				startTask(motorRight);
+				move(50,0,-1);
 				if (getColorName(colorSensor) == target_colour)
 				{ lineFound = true; }
 			}//end while
-			move(0,0,-1);
+			
 
 			//if still not found, return to position
 			if (lineFound == false)
 			{
 				resetGyro(gyroSensor);
-				while (getGyroDegrees(gyroSensor) < 30 && lineFound == false)
+				while (getGyroDegrees(gyroSensor) < 10 && lineFound == false)
 				{
-					startTask(resetRight);
-					if (getColorName(colorSensor) == target_colour)
-					{ lineFound = true; }
+					move(-50,0,-1);
+									if (getColorName(colorSensor) == target_colour)
+				{ lineFound = true; }s
 				}//end while
-				move(0,0,-1);
+
 			}
 
 		}//big if clause end
 
 		if (lineFound == true)
 		{
-			startTask(motorHalf);
+			move(70,70,-1);
 		}
+		
 		if (lineFound == false)
 		{
 			move(0,0,-1);
@@ -273,11 +270,10 @@ void hit_wall(){
 
     bool button_pressed = false;
 
-    move(move_speed,move_speed, -1);
+    move(85,100, -1);
     while (!button_pressed){
         if (getTouchValue(touchSensor)==1){
             button_pressed = true;
         }
     }
-    move(0,0,0);
 }
