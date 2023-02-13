@@ -241,7 +241,7 @@ void follow_line2(){
 				while (getGyroDegrees(gyroSensor) < 10 && lineFound == false)
 				{
 					move(-50,0,-1);
-									if (getColorName(colorSensor) == target_colour)
+                    if (getColorName(colorSensor) == target_colour)
 				{ lineFound = true; }
 				}//end while
 
