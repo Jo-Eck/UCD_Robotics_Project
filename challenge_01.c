@@ -1,7 +1,7 @@
-#pragma config(Sensor, S1,     touchSensor,    sensorEV3_Touch)
+#pragma config(Sensor, S1,     touchSensor1,    sensorEV3_Touch)
 #pragma config(Sensor, S2,     gyroSensor,     sensorEV3_Gyro)
 #pragma config(Sensor, S3,     colorSensor,    sensorEV3_Color, modeEV3Color_Color)
-#pragma config(Sensor, S4,     touchSensor,    sensorEV3_Touch)
+#pragma config(Sensor, S4,     touchSensor2,    sensorEV3_Touch)
 #pragma config(Motor,  motorA,          armMotor,      tmotorEV3_Large, PIDControl, encoder)
 #pragma config(Motor,  motorB,          leftMotor,     tmotorEV3_Large, PIDControl, driveLeft, encoder)
 #pragma config(Motor,  motorC,          rightMotor,    tmotorEV3_Large, PIDControl, driveRight, encoder)
@@ -19,11 +19,11 @@ void hit_wall();
 void follow_line2();
 
 // Global variables
-int turn_speed = 50;
-int move_speed = 100;
+int turn_speed = 40;
+int move_speed = 90;
 int reverse_speed = -30;
 int line_lost_max_angle = 60;
-int line_lost_angle_increments = 5;
+int line_lost_angle_increments = 3;
 TLegoColors target_colour = colorRed;
 
 task motorLeft()
@@ -59,7 +59,7 @@ task main(){
 
     // Step 2
     // turning 90 degrees to the right and moving towards the line
-    turn(-80);
+    turn(-70);
 		move_to_line();
 
     // Step 3
@@ -72,20 +72,20 @@ task main(){
     // Step 4
     // After we have reached the end of the line we turn X degrees to the right
     // and move towards the wall
-    turn(30);
+    turn(40);
     hit_wall();
 
     // Step 5
     // After we have hit the wall we move back a bit and turn 90 degrees to the right
-    move(reverse_speed,reverse_speed, 500);
-    turn(-80);
+    move(reverse_speed,reverse_speed, 400);
+    turn(-70);
 
-   
+
 
     // Step 6
     // we now head for the wall again, back off and do a 180 degree turn
     hit_wall();
-    turn(-165);
+    turn(-175);
 
     // Step 7
     // We now head for the wall again and stop when we hit it
@@ -212,7 +212,7 @@ void follow_line2(){
 			//if still not found, return to position
 			if (lineFound == false)
 			{
-		
+
 				while (getGyroDegrees(gyroSensor) > -10  && lineFound == false )
 				{
 					move(0,-50,-1);
@@ -232,7 +232,7 @@ void follow_line2(){
 				if (getColorName(colorSensor) == target_colour)
 				{ lineFound = true; }
 			}//end while
-			
+
 
 			//if still not found, return to position
 			if (lineFound == false)
@@ -242,7 +242,7 @@ void follow_line2(){
 				{
 					move(-50,0,-1);
 									if (getColorName(colorSensor) == target_colour)
-				{ lineFound = true; }s
+				{ lineFound = true; }
 				}//end while
 
 			}
@@ -253,7 +253,7 @@ void follow_line2(){
 		{
 			move(70,70,-1);
 		}
-		
+
 		if (lineFound == false)
 		{
 			move(0,0,-1);
@@ -270,9 +270,9 @@ void hit_wall(){
 
     bool button_pressed = false;
 
-    move(85,100, -1);
+    move(70,70, -1);
     while (!button_pressed){
-        if (getTouchValue(touchSensor)==1){
+        if (getTouchValue(touchSensor1)==1 || getTouchValue(touchSensor2)==1){
             button_pressed = true;
         }
     }
