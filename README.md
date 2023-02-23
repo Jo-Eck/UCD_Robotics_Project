@@ -14,7 +14,7 @@ It is a joined effort of the following students:
 
 The project is a robot which has to solve a series of challenges.
 
-During that time a log of the the progress will be kept. [Which can be found here](https://docs.google.com/document/d/1BcbkquZ09W94oCHA4IotyMSPyje_6-qT3gi7uaeBphA/edit?usp=sharing)  
-
 1. The robot will need to be able to navigate a course. The course will be a series of areas which the robot will need to navigate through.
-2. ...
+   - The Dev-Log for this challenge can be found [here](https://docs.google.com/document/d/1BcbkquZ09W94oCHA4IotyMSPyje_6-qT3gi7uaeBphA/edit?usp=sharing)
+2. During the Second challenge the robot will need to be go on a rescue mission. The robot will need to navigate to a location and then find a person. The robot will then need to find a way to get the person to a safe location, without entering any area marked as dangerous.
+   - This Challenges dev-log can be found [here](https://docs.google.com/document/d/1qxz8Ch5i7K73d-4kluRbXO9T1niyn63iM9dFc-gz9ZE/edit?usp=sharing)
