@@ -116,6 +116,29 @@ void move_arm(char position){
     }
 }
 
+void detect_fire_uturn(TLegoColors target_colour){
+    while (getColorName(colorSensor) != target_colour){
+        move(move_speed,move_speed,-1);
+        if (getColorName(colorSensor) == target_colour){
+            break;
+        }
+    }
+    turn(-165);
+    move(reverse_speed,reverse_speed,500);
+    turn(-85); //kturn
+}
+
+void move_around_walls(){
+    detect_wall(25);
+    turn(85); //turn right
+    detect_wall(25);
+    turn(-85); //turn left
+    detect_wall(25);
+    turn(85); //turn right
+    detect_wall(25);
+
+}
+
 task main(){
     detect_fire_uturn(colorRed);
     turn(165);
