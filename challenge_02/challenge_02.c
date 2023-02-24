@@ -12,6 +12,7 @@ void turn(int degrees);
 void move(int left,int right, int time);
 void detect_wall(int min_distance);
 void hit_wall();
+void move_arm(char position);
 
 // Global variables
 int turn_speed = 50;
@@ -94,6 +95,24 @@ void hit_wall(){
 void detect_fire_uturn(TLegoColors target_colour){
     while (getColorName(colorSensor) != target_colour){
         move(move_speed,move_speed,-1);
+    }
+}
+
+void move_arm(char position){
+    // Moves the arm to a certain position
+    // char position: The position to move the arm to
+    // 'u' for up
+    // 'd' for down
+    // 'm' for middle
+
+    // These angles are assumed 
+    // TODO: Test!
+    if (position == 'u'){
+        setMotorTarget(armMotor, 0, 100);
+    } else if (position == 'd'){
+        setMotorTarget(armMotor, -135, 100);
+    } else if (position == 'm'){
+        setMotorTarget(armMotor, -90, 100);
     }
 }
 
