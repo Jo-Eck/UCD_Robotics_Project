@@ -170,6 +170,11 @@ void move_around_walls(){
 
 }
 
+void tune()
+{
+    PlayTone(880,14); wait1Msec(75);
+}
+
 task main(){
     detect_wall(15);
     resetMotorEncoder(armMotor);
@@ -180,4 +185,5 @@ task main(){
     detect_fire_uturn(target_colour);
     hit_wall();
     move_around_walls();
+    tune();
 }
