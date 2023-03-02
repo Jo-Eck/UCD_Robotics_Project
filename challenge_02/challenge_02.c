@@ -172,7 +172,7 @@ void move_around_walls(){
 
 void tune()
 {
-    PlayTone(880,14); wait1Msec(75);
+    PlayTone(880,21); wait1Msec(75);
 }
 
 task main(){
