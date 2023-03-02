@@ -179,6 +179,5 @@ task main(){
     turn(60);
     detect_fire_uturn(target_colour);
     hit_wall();
-
     move_around_walls();
 }
