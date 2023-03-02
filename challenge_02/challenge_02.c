@@ -12,7 +12,7 @@ void turn(int degrees);
 void move(int left,int right, int time);
 void detect_wall(int min_distance);
 void hit_wall();
-void move_arm(char position);
+void move_arm(int position);
 
 // Global variables
 int turn_speed = 50;
@@ -32,16 +32,16 @@ void turn(int degrees){
     if (degrees > 0){
         // Turn right until the angel is reached (or passed)
         while (getGyroDegrees(gyroSensor) < degrees){
-            motor[motorB] = -turn_speed;
-            motor[motorC] = turn_speed;
+            motor[motorB] = turn_speed;
+            motor[motorC] = -turn_speed;
 
 
         }
     } else {
         // Turn left until the angel is reached (or passed)
         while (getGyroDegrees(gyroSensor) > degrees){
-            motor[motorB] = turn_speed;
-            motor[motorC] = -turn_speed;
+            motor[motorB] = -turn_speed;
+            motor[motorC] = turn_speed;
         }
     }
     // TODO: Pid Loop to counter oversteering
@@ -92,28 +92,37 @@ void hit_wall(){
     }
 }
 
-void detect_fire_uturn(TLegoColors target_colour){
-    while (getColorName(colorSensor) != target_colour){
-        move(move_speed,move_speed,-1);
-    }
-}
+//void detect_fire_uturn(TLegoColors target_colour){
+//    while (getColorName(colorSensor) != target_colour){
+//        move(move_speed,move_speed,-1);
+//    }
+//}
 
-void move_arm(char position){
+void move_arm(int position){
     // Moves the arm to a certain position
     // char position: The position to move the arm to
     // 'u' for up
     // 'd' for down
     // 'm' for middle
 
-    // These angles are assumed 
+    // These angles are assumed
     // TODO: Test!
-    if (position == 'u'){
+
+    if (position == 1){
         setMotorTarget(armMotor, 0, 100);
-    } else if (position == 'd'){
-        setMotorTarget(armMotor, -135, 100);
-    } else if (position == 'm'){
-        setMotorTarget(armMotor, -90, 100);
+        wait1Msec(1000);
+
     }
+    if (position == 2){
+        setMotorTarget(armMotor, -100, 100);
+        wait1Msec(1000);
+
+    }
+    if (position == 3){
+        setMotorTarget(armMotor, 50,100);
+        wait1Msec(1000);
+    }
+    wait1Msec(1000);
 }
 
 void detect_fire_uturn(TLegoColors target_colour){
@@ -123,9 +132,15 @@ void detect_fire_uturn(TLegoColors target_colour){
             break;
         }
     }
-    turn(-165);
-    move(reverse_speed,reverse_speed,500);
-    turn(-85); //kturn
+    turn(180);
+    while (getTouchValue(touchSensor) == 0){
+        move(reverse_speed,reverse_speed,-1);
+        if (getTouchValue(touchSensor) == 1){
+            break;
+        }
+    }
+    move(move_speed, move_speed, 200);
+    turn(-60); //kturn
 }
 
 void move_around_walls(){
@@ -140,8 +155,10 @@ void move_around_walls(){
 }
 
 task main(){
-    detect_fire_uturn(colorRed);
-    turn(165);
+    detect_wall(25);
+    turn(65);
+    resetMotorEncoder(armMotor);
+    move_arm(1);
+    detect_fire_uturn(target_colour);
     hit_wall();
 }
-
