@@ -11,12 +11,15 @@
 void turn(int degrees);
 void move(int left,int right, int time);
 void detect_wall(int min_distance);
+void detect_person(int min_distance);
 void hit_wall();
 void move_arm(int position);
 
 // Global variables
 int turn_speed = 50;
-int move_speed = 100;
+//int move_speed = 75;
+int move_right = 80;
+int move_left = 100;
 int reverse_speed = -30;
 TLegoColors target_colour = colorRed;
 
@@ -73,7 +76,18 @@ void detect_wall(int min_distance){
     resetMotorEncoder(motorB);
     resetMotorEncoder(motorC);
     while (SensorValue(sonarSensor) > min_distance){
-        move(move_speed,move_speed,-1);
+        move(move_left,move_right,-1);
+    }
+    move(0,0,-1);
+}
+
+void detect_person(int min_distance){
+    //Stops robot a certain distance in front of a wall using sonar sensor
+    //Pass as parameter the distance in centimetres that you want the robot to stop at from the wall
+    resetMotorEncoder(motorB);
+    resetMotorEncoder(motorC);
+    while (SensorValue(sonarSensor) > min_distance){
+        move(20,20,-1);
     }
     move(0,0,-1);
 }
@@ -109,12 +123,12 @@ void move_arm(int position){
     // TODO: Test!
 
     if (position == 1){
-        setMotorTarget(armMotor, 0, 100);
+        setMotorTarget(armMotor, 0, 10);
         wait1Msec(1000);
 
     }
     if (position == 2){
-        setMotorTarget(armMotor, -100, 100);
+        setMotorTarget(armMotor, -135, 50);
         wait1Msec(1000);
 
     }
@@ -126,8 +140,9 @@ void move_arm(int position){
 }
 
 void detect_fire_uturn(TLegoColors target_colour){
+    resetGyro(gyroSensor);
     while (getColorName(colorSensor) != target_colour){
-        move(move_speed,move_speed,-1);
+        move(move_left,move_right,-1);
         if (getColorName(colorSensor) == target_colour){
             break;
         }
@@ -139,26 +154,31 @@ void detect_fire_uturn(TLegoColors target_colour){
             break;
         }
     }
-    move(move_speed, move_speed, 200);
+    move(move_left,move_right,200);
     turn(-60); //kturn
 }
 
 void move_around_walls(){
-    detect_wall(25);
-    turn(85); //turn right
-    detect_wall(25);
-    turn(-85); //turn left
-    detect_wall(25);
-    turn(85); //turn right
-    detect_wall(25);
+    detect_wall(10);
+    turn(65); //turn right
+    detect_wall(10);
+    turn(-65); //turn left
+    move(move_left,move_right,20);
+    detect_wall(10);
+    turn(65); //turn right
+    detect_wall(10);
 
 }
 
 task main(){
-    detect_wall(25);
-    turn(65);
+    detect_wall(15);
     resetMotorEncoder(armMotor);
+    move_arm(2);
+    detect_person(6);
     move_arm(1);
+    turn(60);
     detect_fire_uturn(target_colour);
     hit_wall();
+
+    move_around_walls();
 }
