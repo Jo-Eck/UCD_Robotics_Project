@@ -252,4 +252,7 @@ task main(){
     hit_wall();
     move_around_walls();
     MissionImpossible();
+    detect_wall(15);
+    turn(60);
+    move(0,0,1000);
 }
