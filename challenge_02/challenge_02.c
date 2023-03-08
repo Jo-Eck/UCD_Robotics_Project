@@ -18,7 +18,7 @@ void move_arm(int position);
 // Global variables
 int turn_speed = 50;
 //int move_speed = 75;
-int move_right = 80;
+int move_right = 75;
 int move_left = 100;
 int reverse_speed = -30;
 TLegoColors target_colour = colorRed;
