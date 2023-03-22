@@ -1,6 +1,6 @@
 #pragma config(Sensor, S1,     touchSensor,    sensorEV3_Touch)
 #pragma config(Sensor, S2,     colorSensor,    sensorEV3_Color, modeEV3Color_Color)
-#pragma config(Sensor, S4,     gyroSensor,     sensorEV3_Gyro)
+#pragma config(Sensor, S3,     gyroSensor,     sensorEV3_Gyro)
 #pragma config(Motor,  motorA,          clampMotor,      tmotorEV3_Large, PIDControl, encoder)
 #pragma config(Motor,  motorB,          armMotor,     tmotorEV3_Large, PIDControl, driveLeft, encoder)
 #pragma config(Motor,  motorC,          baseMotor,    tmotorEV3_Large, PIDControl, driveRight, encoder)
