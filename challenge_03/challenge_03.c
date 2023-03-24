@@ -21,7 +21,6 @@ void retrieveAndPlaceObject();
 void end();
 
 
-
 int baseMotorSpeed = 50;
 int armMotorSpeed = 30;
 int clampMotorSpeed = 30;
