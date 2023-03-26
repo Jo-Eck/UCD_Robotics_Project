@@ -70,6 +70,7 @@ void openClamp()
 void startMotion()
 {
     startResets();
+    resetGyroTilt();
     liftArmUp(200);
     startResets();
     closeClamp();
@@ -125,7 +126,6 @@ void end()
 task main()
 {
     resetGyroArm();
-    resetGyroTilt();
     startMotion();
     searchRight();
     turnLeft();
