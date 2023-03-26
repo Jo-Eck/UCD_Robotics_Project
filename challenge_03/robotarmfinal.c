@@ -81,7 +81,7 @@ void searchRight()
         if (getTouchValue(touchSensor)>0)
         {
             button_pressed = true;
-            resetGyro(gyroArm);
+            resetGyroArm();
         }
     }
 }
@@ -123,6 +123,7 @@ void placeObject()
 task main()
 {
     resetGyroArm();
+    resetGyroTilt();
     startMotion();
     searchRight();
     turnLeft();
