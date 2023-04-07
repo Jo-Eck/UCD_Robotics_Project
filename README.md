@@ -18,3 +18,7 @@ The project is a robot which has to solve a series of challenges.
    - The Dev-Log for this challenge can be found [here](https://docs.google.com/document/d/1BcbkquZ09W94oCHA4IotyMSPyje_6-qT3gi7uaeBphA/edit?usp=sharing)
 2. During the Second challenge the robot will need to be go on a rescue mission. The robot will need to navigate to a location and then find a person. The robot will then need to find a way to get the person to a safe location, without entering any area marked as dangerous.
    - This Challenges dev-log can be found [here](https://docs.google.com/document/d/1qxz8Ch5i7K73d-4kluRbXO9T1niyn63iM9dFc-gz9ZE/edit?usp=sharing)
+3. Our third challenge was to build and controll a robot arm utilizing rotational matrices. The robot is supposed to be able to pick up an object and place it in a specific location defined in cartesian coordinates. To do this it needs to be able to calculate the kinematic transformation between the base of the robot and the end effector.
+   - The devlog for this challenge can be found [here](https://docs.google.com/document/d/11jMACKPHIdII0A7qfg0ERNsDB5EwGDfZP88_RYdHFuw/edit?usp=sharing)
+
+4. The final challenge is to leave robotC behind us and getting familiar with the industry standard ROS. At first we simply write a publisher and subscriber nodes sending, recieving, processing and forwarding data.
