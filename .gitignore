@@ -1,5 +1,0 @@
-challenge_04/ros2_humble/*
-!challenge_04/ros2_humble/src/
-challenge_04/ros2_humble/src/*
-!challenge_04/ros2_humble/src/py_pubsub/
-*test*
