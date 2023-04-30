@@ -20,5 +20,8 @@ The project is a robot which has to solve a series of challenges.
    - This Challenges dev-log can be found [here](https://docs.google.com/document/d/1qxz8Ch5i7K73d-4kluRbXO9T1niyn63iM9dFc-gz9ZE/edit?usp=sharing)
 3. Our third challenge was to build and controll a robot arm utilizing rotational matrices. The robot is supposed to be able to pick up an object and place it in a specific location defined in cartesian coordinates. To do this it needs to be able to calculate the kinematic transformation between the base of the robot and the end effector.
    - The devlog for this challenge can be found [here](https://docs.google.com/document/d/11jMACKPHIdII0A7qfg0ERNsDB5EwGDfZP88_RYdHFuw/edit?usp=sharing)
-
 4. The final challenge is to leave robotC behind us and getting familiar with the industry standard ROS. At first we simply write a publisher and subscriber nodes sending, recieving, processing and forwarding data.
+   - The devlog for this challenge can be found [here](https://docs.google.com/document/d/1dCzLInjEphC-zhF0qnRi88ivukKRooSHm1DEfd0xQRI/edit?usp=sharing)
+
+In addition to all these challenges we also had to write an essay about a robot of our choice, analyzing the technology that was used. We chose "Peper" by Softbank Robot.
+The essay can be found here: [Pepper Essay](./robotics_essay_Group4.pdf)
